@@ -1,0 +1,12 @@
+[
+  { "id": "1", "name": "Sprinkles", "breed": "Calico", "sex": "Female", "temperament": "Playful", "friendly": "Yes", "age": 2 },
+  { "id": "2", "name": "Neville", "breed": "Domestic Shorthair", "sex": "Male", "temperament": "Curious", "friendly": "Yes", "age": 3 },
+  { "id": "3", "name": "Sally", "breed": "Ragdoll", "sex": "Female", "temperament": "Gentle", "friendly": "Yes", "age": 4 },
+  { "id": "4", "name": "Mittens", "breed": "Siamese", "sex": "Male", "temperament": "Vocal", "friendly": "No", "age": 5 },
+  { "id": "5", "name": "Whiskers", "breed": "Maine Coon", "sex": "Male", "temperament": "Laid-back", "friendly": "Yes", "age": 6 },
+  { "id": "6", "name": "Oliver", "breed": "Bengal", "sex": "Male", "temperament": "Energetic", "friendly": "No", "age": 3 },
+  { "id": "7", "name": "Fluffy", "breed": "Persian", "sex": "Female", "temperament": "Calm", "friendly": "Yes", "age": 7 },
+  { "id": "8", "name": "Luna", "breed": "British Shorthair", "sex": "Female", "temperament": "Affectionate", "friendly": "Yes", "age": 2 },
+  { "id": "9", "name": "Gizmo", "breed": "Abyssinian", "sex": "Male", "temperament": "Adventurous", "friendly": "Yes", "age": 1 },
+  { "id": "10", "name": "Shadow", "breed": "Russian Blue", "sex": "Male", "temperament": "Reserved", "friendly": "No", "age": 4 }
+]
