@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import data from '../../components/catdata.json';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type CatData = {
     id: string;
@@ -16,6 +16,35 @@ type CatData = {
 
 export default function Index() {
     const [selectedItem, setSelectedItem] = useState<CatData | null>(null);
+    const [cats, setCats] = useState<CatData[]>(data);
+
+    //For a new cat
+    const [newCat, setNewCat] = useState<CatData>({
+        id: '',
+        name: '',
+        breed: '',
+        sex: '',
+        temperament: '',
+        friendly: '',
+        age: 0,
+        image: ''
+    });
+
+    useEffect(() => {
+        const loadCats = async () => {
+            try {
+                const storedCats = await AsyncStorage.getItem('cats');
+                if (storedCats) {
+                    setCats(JSON.parse(storedCats));
+                }
+            } catch (error) {
+                console.error('Error loading cats:', error);
+            }
+        };
+        loadCats();
+    }, []);
+
+
 
     const handlePress = (item: CatData) => {
         if (selectedItem?.id === item.id) {

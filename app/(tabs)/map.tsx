@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 
-// Define the state type for location as either LocationObject or null
+
 const MapScreen = () => {
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -16,7 +16,7 @@ const MapScreen = () => {
                 return;
             }
 
-            // Get the current location
+
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
         })();
