@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import AddCatButton from "@/components/AddCatButton";
 
 type CatData = {
     id: string;
@@ -23,6 +24,7 @@ export default function CatList({ data }: CatListProps) {
     };
 
     return (
+
         <FlatList
             data={data}
             keyExtractor={(item) => item.id}
@@ -41,15 +43,16 @@ export default function CatList({ data }: CatListProps) {
                 </TouchableOpacity>
             )}
         />
+
     );
 }
 
 const styles = StyleSheet.create({
     item: {
         backgroundColor: '#111111',
-        padding: 22,
-        marginVertical: 8,
-        borderRadius: 8,
+        padding: 28,
+        marginVertical: 0,
+        borderRadius: 0,
     },
     title: {
         fontSize: 18,
