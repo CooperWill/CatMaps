@@ -15,8 +15,6 @@ export default function Index() {
     setIsModalVisible(false);
   };
 
-
-
   const onModalClose = () => {
     setIsModalVisible(false);
   };
