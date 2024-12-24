@@ -44,54 +44,61 @@ export default function AddCatModal({ isVisible, onClose, onAddCat }: Props) {
   };
 
   return (
-    <Modal visible={isVisible} animationType="slide" onRequestClose={onClose}>
-      <View style={styles.container}>
-        <Text style={styles.label}>Name:</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={setName}
-          placeholder="Enter cat's name"
-        />
-        <Text style={styles.label}>Breed:</Text>
-        <TextInput
-          style={styles.input}
-          value={breed}
-          onChangeText={setBreed}
-          placeholder="Enter cat's breed"
-        />
-        <Text style={styles.label}>Sex:</Text>
-        <TextInput
-          style={styles.input}
-          value={sex}
-          onChangeText={setSex}
-          placeholder="Enter cat's sex"
-        />
-        <Text style={styles.label}>Temperament:</Text>
-        <TextInput
-          style={styles.input}
-          value={temperament}
-          onChangeText={setTemperament}
-          placeholder="Enter cat's temperament"
-        />
-        <Text style={styles.label}>Friendly:</Text>
-        <TextInput
-          style={styles.input}
-          value={friendly}
-          onChangeText={setFriendly}
-          placeholder="Friendly (yes/no)"
-        />
-        <Text style={styles.label}>Age:</Text>
-        <TextInput
-          style={styles.input}
-          value={age}
-          onChangeText={setAge}
-          placeholder="Enter cat's age"
-          keyboardType="numeric"
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Add Cat" onPress={handleAdd} />
-          <Button title="Cancel" onPress={onClose} color="red" />
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      onRequestClose={onClose}
+      transparent={true}
+    >
+      <View style={styles.modalBackground}>
+        <View style={styles.modalContainer}>
+          <View style={styles.buttonContainer}>
+            <Button title="Add Cat" onPress={handleAdd} />
+            <Button title="Cancel" onPress={onClose} color="red" />
+          </View>
+          <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter cat's name"
+          />
+          <Text style={styles.label}>Breed:</Text>
+          <TextInput
+            style={styles.input}
+            value={breed}
+            onChangeText={setBreed}
+            placeholder="Enter cat's breed"
+          />
+          <Text style={styles.label}>Sex:</Text>
+          <TextInput
+            style={styles.input}
+            value={sex}
+            onChangeText={setSex}
+            placeholder="Enter cat's sex"
+          />
+          <Text style={styles.label}>Temperament:</Text>
+          <TextInput
+            style={styles.input}
+            value={temperament}
+            onChangeText={setTemperament}
+            placeholder="Enter cat's temperament"
+          />
+          <Text style={styles.label}>Friendly:</Text>
+          <TextInput
+            style={styles.input}
+            value={friendly}
+            onChangeText={setFriendly}
+            placeholder="Friendly (yes/no)"
+          />
+          <Text style={styles.label}>Age:</Text>
+          <TextInput
+            style={styles.input}
+            value={age}
+            onChangeText={setAge}
+            placeholder="Enter cat's age"
+            keyboardType="numeric"
+          />
         </View>
       </View>
     </Modal>
@@ -99,11 +106,17 @@ export default function AddCatModal({ isVisible, onClose, onAddCat }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalContainer: {
+    width: "80%",
     padding: 16,
     backgroundColor: "#25292e",
+    borderRadius: 8,
+  },
+  modalBackground: {
     flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
+    alignItems: "center",
   },
   label: {
     color: "#fff",
