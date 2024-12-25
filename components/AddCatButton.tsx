@@ -8,17 +8,17 @@ type Props = {
 
 export default function AddCatButton({ label, onPress }: Props) {
   return (
-    <View style={[styles.buttonContainer]}>
-      <Pressable style={[styles.button]} onPress={onPress}>
-        <FontAwesome
-          name="plus-square-o"
-          size={18}
-          color="#fff"
-          style={styles.buttonIcon}
-        />
-        <Text style={[styles.buttonLabel]}>{label}</Text>
+      <Pressable style={styles.buttonContainer} onPress={onPress}>
+        <View style={styles.button}>
+          <FontAwesome
+              name="plus-square-o"
+              size={18}
+              color="#fff"
+              style={styles.buttonIcon}
+          />
+          <Text style={styles.buttonLabel}>{label}</Text>
+        </View>
       </Pressable>
-    </View>
   );
 }
 

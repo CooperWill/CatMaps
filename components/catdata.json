@@ -1,5 +1,7 @@
 [
-  { "id": "1", "name": "Sprinkles", "breed": "Calico", "sex": "Female", "temperament": "Playful", "friendly": "Yes", "age": 2 },
+  { "id": "1", "name": "Sprinkles", "breed": "Calico", "sex": "Female", "temperament": "Playful", "friendly": "Yes", "age": 2,
+    "photo": "@/assets/catpix/quagberon.jpg"
+  },
   { "id": "2", "name": "Neville", "breed": "Domestic Shorthair", "sex": "Male", "temperament": "Curious", "friendly": "Yes", "age": 3 },
   { "id": "3", "name": "Sally", "breed": "Ragdoll", "sex": "Female", "temperament": "Gentle", "friendly": "Yes", "age": 4 },
   { "id": "4", "name": "Mittens", "breed": "Siamese", "sex": "Male", "temperament": "Vocal", "friendly": "No", "age": 5 },

@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   Text,
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from "react-native";
-import AddCatButton from "@/components/AddCatButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type CatData = {
   id: string;
@@ -16,6 +17,7 @@ type CatData = {
   temperament: string;
   friendly: string;
   age: number;
+  photo?: string;
 };
 
 interface CatListProps {
@@ -23,7 +25,32 @@ interface CatListProps {
 }
 
 export default function CatList({ data }: CatListProps) {
+  const [cats, setCats] = useState<CatData[]>(data);
   const [selectedItem, setSelectedItem] = useState<CatData | null>(null);
+
+  useEffect(() => {
+    const loadCats = async () => {
+      try{
+        const storedCats = await AsyncStorage.getItem("cats");
+        if(storedCats){
+          setCats(JSON.parse(storedCats));
+        }
+      } catch (error) {
+        console.log("Failed to load stored cats: ", error);
+      }
+    };
+    loadCats();
+  }, []);
+
+  const handleAddCat = async (newCat: CatData) => {
+    const updatedCats = [...cats, newCat];
+    setCats(updatedCats);
+    try {
+      await AsyncStorage.setItem("cats", JSON.stringify(updatedCats));
+    } catch (error) {
+      console.log("Failed to store cats: ", error);
+    }
+  };
 
   const handlePress = (item: CatData) => {
     setSelectedItem((prev) => (prev?.id === item.id ? null : item));
@@ -35,6 +62,8 @@ export default function CatList({ data }: CatListProps) {
       keyExtractor={(item) => item.id}
       renderItem={({ item, index }) => (
         <TouchableOpacity
+          accessible={true}
+          accessibilityLabel={`Select ${item.name}`}
           style={[
             styles.item,
             {
@@ -44,16 +73,29 @@ export default function CatList({ data }: CatListProps) {
           ]}
           onPress={() => handlePress(item)}
         >
-          <Text style={styles.title}>{item.name}</Text>
-          {selectedItem?.id === item.id && (
-            <View style={styles.details}>
-              <Text style={styles.text}>Breed: {item.breed}</Text>
-              <Text style={styles.text}>Sex: {item.sex}</Text>
-              <Text style={styles.text}>Temperament: {item.temperament}</Text>
-              <Text style={styles.text}>Friendly: {item.friendly}</Text>
-              <Text style={styles.text}>Age: {item.age}</Text>
+          <View style={styles.itemContent}>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{item.name}</Text>
+              {selectedItem?.id === item.id && (
+                <View style={styles.details}>
+                  <Text style={styles.text}>Breed: {item.breed}</Text>
+                  <Text style={styles.text}>Sex: {item.sex}</Text>
+                  <Text style={styles.text}>
+                    Temperament: {item.temperament}
+                  </Text>
+                  <Text style={styles.text}>Friendly: {item.friendly}</Text>
+                  <Text style={styles.text}>Age: {item.age}</Text>
+                </View>
+              )}
             </View>
-          )}
+            {item.photo && (
+              <Image
+                source={{ uri: item.photo }}
+                style={styles.photo}
+                resizeMode="cover"
+              />
+            )}
+          </View>
         </TouchableOpacity>
       )}
     />
@@ -68,6 +110,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "#111",
     borderWidth: 2,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  itemContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+  textContainer: {
+    flex: 1,
   },
   title: {
     fontSize: 18,
@@ -83,5 +136,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: "#fff",
+  },
+  photo: {
+    width: 75,
+    height: 75,
+    borderRadius: 25,
+    marginLeft: 10,
   },
 });

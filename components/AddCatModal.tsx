@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Modal } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Modal,
+  Image,
+  Alert,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = {
   isVisible: boolean;
@@ -12,6 +23,7 @@ type Props = {
     temperament: string;
     friendly: string;
     age: number;
+    photo?: string;
   }) => void;
 };
 
@@ -22,10 +34,29 @@ export default function AddCatModal({ isVisible, onClose, onAddCat }: Props) {
   const [temperament, setTemperament] = useState("");
   const [friendly, setFriendly] = useState("");
   const [age, setAge] = useState("");
+  const [photo, setPhoto] = useState<string | null>(null);
 
-  const handleAdd = () => {
+  const handleSelectPhoto = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission required", "Please allow access to photos");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets?.length > 0) {
+      setPhoto(result.assets[0].uri);
+    }
+  };
+
+  const handleAdd = async () => {
     if (name && breed && sex && temperament && friendly && age) {
-      onAddCat({
+      const newCat = {
         id: Date.now().toString(),
         name,
         breed,
@@ -33,13 +64,22 @@ export default function AddCatModal({ isVisible, onClose, onAddCat }: Props) {
         temperament,
         friendly,
         age: Number(age),
-      });
-      setName("");
-      setBreed("");
-      setSex("");
-      setTemperament("");
-      setFriendly("");
-      setAge("");
+        photo: photo || "",
+      };
+
+      try {
+        const storedCats = await AsyncStorage.getItem("cats");
+        const cats = storedCats ? JSON.parse(storedCats) : [];
+        const updatedCats = [...cats, newCat];
+
+        await AsyncStorage.setItem("cats", JSON.stringify(updatedCats));
+        onAddCat(newCat);
+        onClose();
+      } catch (error) {
+        console.log("Failed to store new cat: ", error);
+      }
+    } else {
+      Alert.alert("Invalid cat details", "Please provide valid cat details");
     }
   };
 
@@ -99,6 +139,14 @@ export default function AddCatModal({ isVisible, onClose, onAddCat }: Props) {
             placeholder="Enter cat's age"
             keyboardType="numeric"
           />
+          <Button title="Select Photo" onPress={handleSelectPhoto} />
+          {photo && (
+            <Image
+              source={{ uri: photo }}
+              style={styles.photo}
+              resizeMode="cover"
+            />
+          )}
         </View>
       </View>
     </Modal>
@@ -131,5 +179,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  photo: {
+    width: 100,
+    height: 100,
+    marginTop: 16,
+    borderRadius: 8,
+    alignSelf: "center",
   },
 });

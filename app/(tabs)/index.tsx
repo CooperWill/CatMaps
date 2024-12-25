@@ -11,6 +11,10 @@ export default function Index() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleAddCat = (newCat: (typeof cats)[0]) => {
+    if (!newCat.id || !newCat.name || !newCat.breed) {
+      alert("Please provide valid cat details.");
+      return;
+    }
     setCats((prevCats) => [...prevCats, newCat]);
     setIsModalVisible(false);
   };
@@ -40,5 +44,5 @@ const styles = StyleSheet.create({
   footerContainer: {
     flex: 1 / 3,
     alignItems: "center",
-  }
+  },
 });
